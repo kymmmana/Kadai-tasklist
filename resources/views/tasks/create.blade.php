@@ -11,16 +11,16 @@
             {!! Form::model($task, ['route' => 'tasks.store']) !!}
             
                 <div class="form-group">
-                    {!! Form::label('status', 'ステータス:') !!}
+                    {!! Form::label('status', 'status:') !!}
                     {!! Form::text('status', null, ['class' => 'form-control']) !!}
                 </div>
                     
                 <div class="form-group">
-                    {!! Form::label('content', 'タスクリスト:') !!}
+                    {!! Form::label('content', 'tasklist:') !!}
                     {!! Form::text('content', null, ['class' => 'form-control']) !!}
                 </div>
                 
-                {!! Form::submit('投稿', ['class' => 'btn btn-primary']) !!}
+                {!! Form::submit('post', ['class' => 'btn btn-primary']) !!}
         
             {!! Form::close() !!}
         </div>

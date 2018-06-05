@@ -9,8 +9,8 @@
             <thead>
                 <tr>
                     <th>id</th>
-                    <th>ステータス</th>
-                    <th>タスクリスト</th>
+                    <th>status</th>
+                    <th>tasklist</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,5 +25,5 @@
         </table>
     @endif
 
-  {!! link_to_route('tasks.create', '新規メッセージの投稿', null, ['class' => 'btn btn-primary']) !!}
+  {!! link_to_route('tasks.create', 'post', null, ['class' => 'btn btn-primary']) !!}
 @endsection

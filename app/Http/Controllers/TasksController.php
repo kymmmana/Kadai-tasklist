@@ -10,18 +10,24 @@ use App\Task;
 
 class TasksController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+      public function index()
     {
-        $tasks = Task::all();
-        
-        return view('tasks.index', [
-           'tasks' => $tasks, ]);
+        $data = [];
+        if (\Auth::check()) {
+            $user = \Auth::user();
+            $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(100);
+
+            $data = [
+                'user' => $user,
+                'tasks' => $tasks,
+            ];
+            $data += $this->counts($user);
+            return view('tasks.index', $data);
+        }else {
+            return view('welcome');
+        }
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -46,12 +52,15 @@ class TasksController extends Controller
     public function store(Request $request)
     {
         
-        $this ->validate($request, [
-            'status' => 'required|max:10',]);
-        $task = new Task;
-        $task->status = $request->status;
-        $task->content = $request->content;
-        $task->save();
+          $this->validate($request, [
+            'content' => 'required|max:191',
+            'status' => 'required|max:10',
+        ]);
+        
+        $request->user()->tasks()->create([
+            'content' => $request->content,
+            'status' => $request->status,
+        ]);
 
         return redirect('/');
     }
@@ -64,11 +73,10 @@ class TasksController extends Controller
      */
     public function show($id)
     {
-        $task = Task::find($id);
+         $task = Task::find($id);
         
-        return view('tasks.show', [
-            'task' => $task,
-            ]);
+
+        return view('tasks.show',['task' => $task,]);
     }
 
     /**
